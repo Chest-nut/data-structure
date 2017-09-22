@@ -16,23 +16,17 @@ class SortHelper(object):
         sort_method(array)
         end_time = time.time()
         assert self.is_sorted(array)    # 判断排序是否正确
-        print('%s耗时：%fms'%(sort_name, (end_time - start_time)*1000) )
+        print('%s耗时：%fs'%(sort_name, (end_time - start_time)) )
 
 
-    def insertion_sort_py(self, array):
-        """python动态语言特性实现的插入排序：
+    def is_sorted(self, array):
+        """判断是否排序正确"""
 
-        n从2开始，取第n个数，将其依次与第1到第n-1个数进行比较，
-        当遇见有一个数比这个数大时，将这个数pop出，
-        并insert到那个比它大的数的位置。
-        """
-
-        for i in range(1, len(array)):
-            for j in range(i):
-                if array[i] <= array[j]:
-                    tmp = array.pop(i)
-                    array.insert(j, tmp)
-                    break
+        n = len(array)
+        for i in range(n-1):
+            if array[i] > array[i+1]:
+                return False
+        return True
 
 
     def insertion_sort(self, array):
@@ -67,6 +61,22 @@ class SortHelper(object):
             array[index] = tmp
 
 
+    def insertion_sort_py(self, array):
+        """python动态语言特性实现的插入排序：
+
+        n从2开始，取第n个数，将其依次与第1到第n-1个数进行比较，
+        当遇见一个数比它大时，说明它就应该插入到比它大这个数之前，
+        只需将其pop出，然后insert到那个比它大的数的位置。
+        """
+
+        for i in range(1, len(array)):
+            for j in range(i):
+                if array[i] <= array[j]:
+                    tmp = array.pop(i)
+                    array.insert(j, tmp)
+                    break
+
+
     def selection_sort(self, array):
         """选择排序"""
 
@@ -96,10 +106,23 @@ class SortHelper(object):
                 break
 
 
-    def is_sorted(self, array):
-        """判断是否排序正确"""
-        n = len(array)
-        for i in range(n-1):
-            if array[i] > array[i+1]:
-                return False
-        return True
+    def shell_sort(self, array, n=4):
+        """希尔排序"""
+
+        length = len(array)
+        increment = length // n
+        while increment >= 1:
+            for i in range(increment):  # 分组数为increment
+                # 每组内部进行插入排序
+                for j in range(i+increment, length, increment):
+                    tmp = array[j]
+                    index = i
+                    for k in range(j, increment-1, -increment):
+                        if array[k-increment] > tmp:
+                            array[k] = array[k-increment]
+                        else:
+                            index = k
+                            break
+                    array[index] = tmp
+            increment = increment // n
+
