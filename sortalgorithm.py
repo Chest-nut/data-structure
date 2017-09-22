@@ -19,7 +19,7 @@ class SortHelper(object):
         print('%s耗时：%fs'%(sort_name, end_time - start_time) )
 
 
-    def insertion_sort1(self, array):
+    def insertion_sort_py(self, array):
         """python动态语言特性实现的插入排序：
 
         n从2开始，取第n个数，将其依次与第1到第n-1个数进行比较，
@@ -35,7 +35,7 @@ class SortHelper(object):
                     break
 
 
-    def insertion_sort2(self, array):
+    def insertion_sort(self, array):
         """传统插入排序：
 
         n从2开始，取第n个数，将其和前一个数比较，
@@ -43,13 +43,28 @@ class SortHelper(object):
         直到比前一个数大为止
         """
 
-        array = array
         for i in range(1, len(array)):
             for j in range(i, 0, -1):
-                if array[j] < array[j-1]:
+                if array[j-1] > array[j]:
                     array[j], array[j-1] = array[j-1], array[j]
                 else:
                     break
+
+
+    def insertion_sort1(self, array):
+        """经过优化的传统插入排序"""
+
+        for i in range(1, len(array)):
+            # 算法优化如下：
+            tmp = array[i]
+            index = 0
+            for j in range(i, 0, -1):
+                if array[j-1] > tmp:
+                    array[j] = array[j-1]
+                else:
+                    index = j
+                    break
+            array[index] = tmp
 
 
     def selection_sort(self, array):
