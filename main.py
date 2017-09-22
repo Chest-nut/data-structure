@@ -10,7 +10,7 @@ from sortalgorithm import SortHelper
 if __name__ == '__main__':
     sort_ = SortHelper()
 
-    array = random.sample(range(2000), 2000)  # 生成一组包含5000个乱序数字的列表
+    array = random.sample(range(5000), 5000)  # 生成一组包含5000个乱序数字的列表
     array_copy = copy(array)    # 拷贝一份一样的乱序数组
     array_copy2 = copy(array)
 

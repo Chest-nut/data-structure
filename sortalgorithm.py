@@ -9,15 +9,15 @@ import time
 
 class SortHelper(object):
 
-    def __init__(self):
-        self.array = []
-
     def test_sort(self, array, sort_method, sort_name='排序'):
+        """测试排序耗时"""
+
         start_time = time.time()
         sort_method(array)
         end_time = time.time()
-        assert self.is_sorted(array)
+        assert self.is_sorted(array)    # 判断排序是否正确
         print('%s耗时：%fs'%(sort_name, end_time - start_time) )
+
 
     def insertion_sort1(self, array):
         """python动态语言特性实现的插入排序：
@@ -27,12 +27,11 @@ class SortHelper(object):
         并insert到那个比它大的数的位置。
         """
 
-        self.array = array
-        for i in range(1, len(self.array)):
+        for i in range(1, len(array)):
             for j in range(i):
-                if self.array[i] <= self.array[j]:
-                    tmp = self.array.pop(i)
-                    self.array.insert(j, tmp)
+                if array[i] <= array[j]:
+                    tmp = array.pop(i)
+                    array.insert(j, tmp)
                     break
 
 
@@ -44,11 +43,11 @@ class SortHelper(object):
         直到比前一个数大为止
         """
 
-        self.array = array
-        for i in range(1, len(self.array)):
+        array = array
+        for i in range(1, len(array)):
             for j in range(i, 0, -1):
-                if self.array[j] < self.array[j-1]:
-                    self.array[j], self.array[j-1] = self.array[j-1], self.array[j]
+                if array[j] < array[j-1]:
+                    array[j], array[j-1] = array[j-1], array[j]
                 else:
                     break
 
@@ -63,7 +62,7 @@ class SortHelper(object):
                 if array[minIndex]  > array[j]:
                     minIndex, j = j, minIndex
             array[minIndex], array[i] = array[i], array[minIndex]
-        return array
+
 
     def is_sorted(self, array):
         """判断是否排序正确"""
