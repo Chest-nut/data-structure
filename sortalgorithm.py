@@ -16,7 +16,7 @@ class SortHelper(object):
         sort_method(array)
         end_time = time.time()
         assert self.is_sorted(array)    # 判断排序是否正确
-        print('%s耗时：%fs'%(sort_name, end_time - start_time) )
+        print('%s耗时：%fms'%(sort_name, (end_time - start_time)*1000) )
 
 
     def insertion_sort_py(self, array):
@@ -75,8 +75,25 @@ class SortHelper(object):
             minIndex = i
             for j in range(i+1, n):
                 if array[minIndex]  > array[j]:
-                    minIndex, j = j, minIndex
-            array[minIndex], array[i] = array[i], array[minIndex]
+                    minIndex = j
+            if minIndex is not i:
+                array[minIndex], array[i] = array[i], array[minIndex]
+
+
+    def bubble_sort(self, array):
+        """冒泡排序"""
+
+        n = len(array)
+        flag = True     # flag 用于优化当后面的数列已经有序的情况
+        for i in range(n):
+            if flag:
+                flag = False    # 如果本次循环结束flag仍为False，说明后续数列已经有序，下次循环不再进行
+                for j in range(n-1, i, -1):
+                    if array[j-1] > array[j]:
+                        array[j-1], array[j] = array[j], array[j-1]
+                        flag = True
+            else:
+                break
 
 
     def is_sorted(self, array):
