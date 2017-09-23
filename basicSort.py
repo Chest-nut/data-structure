@@ -1,41 +1,20 @@
 # -*- coding:utf-8 -*-
 
 """
-排序算法
+基础排序算法
 """
 
-import time
+from sorthelper import SortHelper
 
 
-class SortHelper(object):
+class BasicSort(SortHelper):
+    """基础排序
 
-    def test_sort(self, array, sort_method, sort_name='排序'):
-        """测试排序耗时"""
-
-        start_time = time.time()
-        sort_method(array)
-        end_time = time.time()
-        assert self.is_sorted(array)    # 判断排序是否正确
-        print('%s耗时：%fs'%(sort_name, (end_time - start_time)) )
-
-
-    def is_sorted(self, array):
-        """判断是否排序正确"""
-
-        n = len(array)
-        for i in range(n-1):
-            if array[i] > array[i+1]:
-                return False
-        return True
-
+    包括：插入排序、选择排序、冒泡排序和希尔排序
+    """
 
     def insertion_sort(self, array):
-        """传统插入排序：
-
-        n从2开始，取第n个数，将其和前一个数比较，
-        如果比前一个数小，则互换位置，然后再和前一个数比较，以此类推，
-        直到比前一个数大为止
-        """
+        """未优化插入排序"""
 
         for i in range(1, len(array)):
             for j in range(i, 0, -1):
@@ -46,10 +25,9 @@ class SortHelper(object):
 
 
     def insertion_sort1(self, array):
-        """经过优化的传统插入排序"""
+        """经过优化的插入排序"""
 
         for i in range(1, len(array)):
-            # 算法优化如下：
             tmp = array[i]
             index = 0
             for j in range(i, 0, -1):
@@ -116,7 +94,7 @@ class SortHelper(object):
                 # 每组内部进行插入排序
                 for j in range(i+increment, length, increment):
                     tmp = array[j]
-                    index = i
+                    index = i   # 当前组的第一个数的索引
                     for k in range(j, increment-1, -increment):
                         if array[k-increment] > tmp:
                             array[k] = array[k-increment]
@@ -125,4 +103,3 @@ class SortHelper(object):
                             break
                     array[index] = tmp
             increment = increment // n
-
