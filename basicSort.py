@@ -84,7 +84,7 @@ class BasicSort(SortHelper):
                 break
 
 
-    def shell_sort(self, array, n=4):
+    def shell_sort(self, array, n=3):
         """希尔排序"""
 
         length = len(array)
