@@ -16,7 +16,10 @@ class SortHelper(object):
         start_time = time.time()
         sort_method(array)
         end_time = time.time()
-        assert self.is_sorted(array)    # 判断排序是否正确
+        try:
+            assert self.is_sorted(array)    # 判断排序是否正确
+        except Exception:
+            print('%s结果不正确！！！'%sort_name)
         print('%s耗时：%fs'%(sort_name, (end_time - start_time)) )
 
 

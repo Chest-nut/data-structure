@@ -10,7 +10,7 @@ from sorthelper import SortHelper
 class BasicSort(SortHelper):
     """基础排序
 
-    包括：插入排序、选择排序、冒泡排序和希尔排序
+    包括：插入排序、选择排序、冒泡排序
     """
 
     def insertion_sort(self, array):
@@ -24,13 +24,16 @@ class BasicSort(SortHelper):
                     break
 
 
-    def insertion_sort1(self, array):
+    def insertion_sort1(self, array, left=0, right=0):
         """经过优化的插入排序"""
 
-        for i in range(1, len(array)):
+        if right is 0:
+            right = len(array) - 1
+
+        for i in range(left+1, right+1):
             tmp = array[i]
-            index = 0
-            for j in range(i, 0, -1):
+            index = left
+            for j in range(i, left, -1):
                 if array[j-1] > tmp:
                     array[j] = array[j-1]
                 else:
@@ -82,24 +85,3 @@ class BasicSort(SortHelper):
                         flag = True
             else:
                 break
-
-
-    def shell_sort(self, array, n=3):
-        """希尔排序"""
-
-        length = len(array)
-        increment = length // n
-        while increment >= 1:
-            for i in range(increment):  # 分组数为increment
-                # 每组内部进行插入排序
-                for j in range(i+increment, length, increment):
-                    tmp = array[j]
-                    index = i   # 当前组的第一个数的索引
-                    for k in range(j, increment-1, -increment):
-                        if array[k-increment] > tmp:
-                            array[k] = array[k-increment]
-                        else:
-                            index = k
-                            break
-                    array[index] = tmp
-            increment = increment // n
