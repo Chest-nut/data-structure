@@ -25,7 +25,10 @@ class BasicSort(SortHelper):
 
 
     def insertion_sort1(self, array, left=0, right=0):
-        """经过优化的插入排序"""
+        """经过优化的插入排序
+
+        可以指定需要排序的范围，默认是0到length-1
+        """
 
         if right is 0:
             right = len(array) - 1
