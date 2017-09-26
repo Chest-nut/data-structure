@@ -258,7 +258,7 @@ class AdvancedSort(SortHelper):
             return
 
         lt, gt = self.__partition3(array, left, right)
-        self.__quickSort3Ways(array, left, lt)
+        self.__quickSort3Ways(array, left, lt-1) # 在lt换成lt-1之前性能极不稳定
         self.__quickSort3Ways(array, gt, right)
 
     def __partition3(self, array, left, right):

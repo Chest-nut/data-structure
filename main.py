@@ -11,14 +11,14 @@ if __name__ == '__main__':
     basic_sort = BasicSort()
     advanced_sort = AdvancedSort()
 
-    n = 20000
+    n = 50000
     array = []
-    # 生成一个有大量重复元素的列表。（为何本程序的三路快排大概率退化？）
-    for i in range(n):
-        array.append(random.choice(range(4)))
+    # 生成一个有大量重复元素的列表。
+    # for i in range(n):
+    #     array.append(random.choice(range(10)))
 
     # 生成一组包含n个乱序数字的列表
-    # array = random.sample(range(n),n)
+    array = random.sample(range(n),n)
     array_copy1 = copy(array)
     array_copy2 = copy(array)
     array_copy3 = copy(array)
