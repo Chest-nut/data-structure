@@ -186,8 +186,9 @@ class AdvancedSort(SortHelper):
         i = left + 1
         j = right
         while True:
-            while array[i] < v and i <= right:i += 1
-            while array[j] > v and j >= left+1:j -= 1
+            # i <= right 必须在 array[i] < v 之前
+            while i <= right and array[i] < v:i += 1
+            while j >= left+1 and array[j] > v:j -= 1
             if j < i:break
             array[i], array[j] = array[j], array[i]
             i += 1
