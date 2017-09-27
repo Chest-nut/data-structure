@@ -11,7 +11,7 @@ from basicSort import BasicSort
 class AdvancedSort(SortHelper):
     """高级排序
 
-    包括：两种归并排序、希尔排序、快速排序
+    包括：希尔排序、两种归并排序、多种快速排序
     """
 
     def __init__(self):
