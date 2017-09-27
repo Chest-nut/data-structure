@@ -4,6 +4,9 @@
 基础排序算法
 """
 
+import random
+from copy import copy
+
 from sorthelper import SortHelper
 
 
@@ -88,3 +91,21 @@ class BasicSort(SortHelper):
                         flag = True
             else:
                 break
+
+
+if __name__ == '__main__':
+
+    basic_sort = BasicSort()
+
+    n = 10000
+    array = random.sample(range(n),n)
+    array_copy1 = copy(array)
+    array_copy2 = copy(array)
+    array_copy3 = copy(array)
+    array_copy4 = copy(array)
+
+    basic_sort.test_sort(array, basic_sort.insertion_sort, '未优化的插入排序')
+    basic_sort.test_sort(array_copy1, basic_sort.insertion_sort1, '已优化的插入排序')
+    basic_sort.test_sort(array_copy2, basic_sort.insertion_sort_py, 'py风格的插入排序')
+    basic_sort.test_sort(array_copy3, basic_sort.selection_sort, '选择排序')
+    basic_sort.test_sort(array_copy4, basic_sort.bubble_sort, '冒泡排序')
