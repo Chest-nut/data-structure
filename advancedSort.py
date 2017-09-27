@@ -183,6 +183,7 @@ class AdvancedSort(SortHelper):
         # 优化三:双路快速排序
         # 解决了对有大量重复数据的数组排序时递归太深的问题
         # 要求：arr[left+1, i) < v < arr(j, right]
+        # 偶尔退化
         i = left + 1
         j = right
         while True:
@@ -268,19 +269,41 @@ class AdvancedSort(SortHelper):
         array[left], array[index] = array[index], array[left]
         v = array[left]
 
+        # # 要求：arr[left+1, lt] < arr[lt+1, i) = v < arr[gt, right]
+        # # 偶尔退化
+        # lt = left
+        # i = lt + 1
+        # gt = right + 1
+        # while i < gt:
+        #     if array[i] < v:
+        #         array[i], array[lt+1] = array[lt+1], array[i]
+        #         i += 1
+        #         lt += 1
+        #     elif array[i] > v:
+        #         array[i], array[gt-1] = array[gt-1], array[i]
+        #         gt -= 1
+        #     else:
+        #         i += 1
+        # array[left], array[lt] = array[lt], array[left]
+        # return lt, gt
+
         # 要求：arr[left+1, lt] < arr[lt+1, i) = v < arr[gt, right]
+        # 偶尔退化
         lt = left
         i = lt + 1
         gt = right + 1
-        while i < gt:
-            if array[i] < v:
-                array[i], array[lt+1] = array[lt+1], array[i]
+        while True:
+            while i < gt and array[i] <= v:
+                if array[i] is v:pass
+                else:
+                    array[i], array[lt+1] = array[lt+1], array[i]
+                    lt += 1
                 i += 1
-                lt += 1
-            elif array[i] > v:
-                array[i], array[gt-1] = array[gt-1], array[i]
+            while i < gt and array[gt-1] > v:
                 gt -= 1
-            else:
-                i += 1
+            if gt <= i:
+                break
+            array[i], array[gt-1] = array[gt-1], array[i]
+            gt -= 1
         array[left], array[lt] = array[lt], array[left]
         return lt, gt
