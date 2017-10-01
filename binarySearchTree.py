@@ -2,6 +2,7 @@
 
 
 import random
+import re
 import time
 
 class Node(object):
@@ -14,58 +15,97 @@ class Node(object):
 class BinarySearchTree(object):
 
     def __init__(self, rootNode=None):
-        self.count = 0
+        self.size = 0
         self.rootNode = rootNode
 
-
-    def size(self):
-        """返回搜索树的节点数"""
-
-        return self.count
 
     def isEmpty(self):
         """搜索树为空则返回True"""
 
-        return self.count is 0
+        return self.size is 0
 
-    def insert_node(self, node):
-        """插入一个节点"""
+    def insert_node(self, key, value=None):
+        """插入一个节点
 
+        需要传入key和value
+        """
+
+        node = Node(key, value)
         if self.rootNode is None:
             self.rootNode = node
-            self.count = 1
+            self.size = 1
         else:
             cur_node = self.rootNode
             while True:
                 # 如果已存在相同键的节点，用新的value替换旧的value
-                if node.key is cur_node.key:
+                if node.key == cur_node.key:
                     cur_node.value = node.value
                     return
                 elif node.key < cur_node.key:
                     if cur_node.l_node is None:
                         cur_node.l_node = node
-                        self.count += 1
+                        self.size += 1
                         return
                     cur_node = cur_node.l_node
                 else:
                     if cur_node.r_node is None:
                         cur_node.r_node = node
-                        self.count += 1
+                        self.size += 1
                         return
                     cur_node = cur_node.r_node
 
-
     def search_node(self, key):
+        """查找是否存在键为key的节点，存在则返回该节点，不存在则返回None
+
+        因为返回的是节点，所以外部可以操作节点的key和value，
+        能否像C++一样返回value指针？
+        """
+
         cur_node = self.rootNode
         while cur_node is not None:
-            if key is cur_node.key:
-                return cur_node.value
+            if key == cur_node.key: # ‘==’不能用‘is’代替
+                return cur_node
             elif key < cur_node.key:
                 cur_node = cur_node.l_node
             else:
                 cur_node = cur_node.r_node
         return
 
+    def preorder(self):
+        self._preorder(self.rootNode)
+
+    def _preorder(self, node):
+        """前序遍历"""
+
+        if node is None:
+            return
+        print('%s: %s'%(node.key, node.value))
+        self._preorder(node.l_node)
+        self._preorder(node.r_node)
+
+    def inorder(self):
+        self._inorder(self.rootNode)
+
+    def _inorder(self, node):
+        """中序遍历"""
+
+        if node is None:
+            return
+        self._inorder(node.l_node)
+        print('%s: %s'%(node.key, node.value))
+        self._inorder(node.r_node)
+
+    def postorder(self):
+        self._postorder(self.rootNode)
+
+    def _postorder(self, node):
+        """后序遍历"""
+
+        if node is None:
+            return
+        self._postorder(node.l_node)
+        self._postorder(node.r_node)
+        print('%s: %s'%(node.key, node.value))
 
     def binarySearch(self, array, target, l=0, r=0):
         # 在arr[l, r]中查找target
@@ -105,15 +145,16 @@ class BinarySearchTree(object):
 if __name__ == '__main__':
     bst = BinarySearchTree()
 
-    # n = 1000
-    # array = range(n)
-    # index = bst.binarySearch2(array, 100)
-    # print('index is %d' %index)
+    words = []
+    with open('text.txt', 'rb') as f:
+        text = f.read()
+        _, *words = re.findall(r'\w+\b', str(text))  # \b 表示单词边界
+    for word in words:
+        result = bst.search_node(word)
+        if result:
+            result.value += 1
+        else:
+            bst.insert_node(word, 1)
 
-    root = Node('root', 0)
-    node1 = Node('node1', 1)
-    bst.insert_node(root)
-    bst.insert_node(node1)
-    print(bst.size(),bst.isEmpty())
-    value = bst.search_node('root')
-    print(value)
+    bst.preorder()
+    print(bst.size)
