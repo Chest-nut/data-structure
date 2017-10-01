@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 
 
+import queue
 import random
 import re
 import time
@@ -107,6 +108,21 @@ class BinarySearchTree(object):
         self._postorder(node.r_node)
         print('%s: %s'%(node.key, node.value))
 
+    def levelorder(self):
+        """层序遍历，也就是广度优先遍历"""
+
+        q = queue.Queue()
+        q.put(self.rootNode)
+
+        while not q.empty():
+            node = q.get()
+            print(node.key)
+            if node.l_node:
+                q.put(node.l_node)
+            if node.r_node:
+                q.put(node.r_node)
+
+
     def binarySearch(self, array, target, l=0, r=0):
         # 在arr[l, r]中查找target
 
@@ -145,16 +161,9 @@ class BinarySearchTree(object):
 if __name__ == '__main__':
     bst = BinarySearchTree()
 
-    words = []
-    with open('text.txt', 'rb') as f:
-        text = f.read()
-        _, *words = re.findall(r'\w+\b', str(text))  # \b 表示单词边界
-    for word in words:
-        result = bst.search_node(word)
-        if result:
-            result.value += 1
-        else:
-            bst.insert_node(word, 1)
-
-    bst.preorder()
-    print(bst.size)
+    n = 10
+    tree = random.sample(range(n), n)
+    for i in tree:
+        bst.insert_node(i)
+    print(tree)
+    bst.levelorder()
